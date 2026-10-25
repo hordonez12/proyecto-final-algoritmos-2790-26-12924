@@ -6,6 +6,21 @@ int main() {
     int opcion;
     opcion = 0;
     
+    int totalVentas;
+    totalVentas = 0;
+    
+    double totalDineroDia;
+    totalDineroDia = 0;
+    
+    double totalDescuentosDia;
+    totalDescuentosDia = 0;
+    
+    double ventaMayor;
+    ventaMayor = -1;
+    
+    double ventaMenor;
+    ventaMenor = -1;
+    
     while (opcion != 3) {
         cout << "\n--- MENU PRINCIPAL ---" << endl;
         cout << "1. Registrar venta" << endl;
@@ -52,12 +67,77 @@ int main() {
                 }
             }
             
-            cout << "\nSubtotal de la venta actual: Q" << subtotal << endl;
+            double descuento;
+            descuento = 0;
+            
+            if (subtotal < 100) {
+                descuento = 0;
+            }
+            if (subtotal >= 100 && subtotal < 500) {
+                descuento = subtotal * 0.05;
+            }
+            if (subtotal >= 500) {
+                descuento = subtotal * 0.10;
+            }
+            
+            double montoConDescuento;
+            montoConDescuento = subtotal - descuento;
+            
+            double iva;
+            iva = montoConDescuento * 0.12;
+            
+            double totalAPagar;
+            totalAPagar = montoConDescuento + iva;
+            
+            double pagoCliente;
+            cout << "\nTotal a pagar (con IVA): Q" << totalAPagar << endl;
+            cout << "Ingrese el monto recibido del cliente: Q";
+            cin >> pagoCliente;
+            
+            while (pagoCliente < totalAPagar) {
+                cout << "Error: El monto recibido es menor al total a pagar." << endl;
+                cout << "Ingrese el monto recibido del cliente: Q";
+                cin >> pagoCliente;
+            }
+            
+            double cambio;
+            cambio = pagoCliente - totalAPagar;
+            
+            cout << "\n--- RECIBO DE VENTA ---" << endl;
+            cout << "Subtotal: Q" << subtotal << endl;
+            cout << "Descuento otorgado: Q" << descuento << endl;
+            cout << "IVA (12%): Q" << iva << endl;
+            cout << "Total final: Q" << totalAPagar << endl;
+            cout << "Pago del cliente: Q" << pagoCliente << endl;
+            cout << "Cambio: Q" << cambio << endl;
+            
+            totalVentas = totalVentas + 1;
+            totalDineroDia = totalDineroDia + totalAPagar;
+            totalDescuentosDia = totalDescuentosDia + descuento;
+            
+            if (ventaMayor == -1 || totalAPagar > ventaMayor) {
+                ventaMayor = totalAPagar;
+            }
+            if (ventaMenor == -1 || totalAPagar < ventaMenor) {
+                ventaMenor = totalAPagar;
+            }
         }
         
         if (opcion == 2) {
-            cout << "\n--- RESUMEN PARCIAL ---" << endl;
-            cout << "Proximamente en el Hito 2." << endl;
+            cout << "\n--- RESUMEN PARCIAL DEL DIA ---" << endl;
+            if (totalVentas == 0) {
+                cout << "Aun no se han registrado ventas el dia de hoy." << endl;
+            } else {
+                double promedio;
+                promedio = totalDineroDia / totalVentas;
+                
+                cout << "Numero de ventas realizadas: " << totalVentas << endl;
+                cout << "Total de dinero vendido: Q" << totalDineroDia << endl;
+                cout << "Venta de mayor valor: Q" << ventaMayor << endl;
+                cout << "Venta de menor valor: Q" << ventaMenor << endl;
+                cout << "Promedio por venta: Q" << promedio << endl;
+                cout << "Total de descuentos otorgados: Q" << totalDescuentosDia << endl;
+            }
         }
         
         if (opcion == 3) {
