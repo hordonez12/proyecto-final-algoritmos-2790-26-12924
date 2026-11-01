@@ -3,145 +3,125 @@
 using namespace std;
 
 int main() {
-    int opcion;
-    opcion = 0;
+    int opc = 0;
     
-    int totalVentas;
-    totalVentas = 0;
+    // Variables para el reporte del final
+    int conteoVentas = 0;
+    double dineroTotal = 0;
+    double descuentosTotal = 0;
+    double vMayor = -1;
+    double vMenor = -1;
     
-    double totalDineroDia;
-    totalDineroDia = 0;
-    
-    double totalDescuentosDia;
-    totalDescuentosDia = 0;
-    
-    double ventaMayor;
-    ventaMayor = -1;
-    
-    double ventaMenor;
-    ventaMenor = -1;
-    
-    while (opcion != 3) {
-        cout << "\n--- MENU PRINCIPAL ---" << endl;
-        cout << "1. Registrar venta" << endl;
-        cout << "2. Ver resumen parcial del dia" << endl;
-        cout << "3. Cerrar caja y salir" << endl;
-        cout << "Seleccione una opcion: ";
-        cin >> opcion;
+    while (opc != 3) {
+        cout << "\n=== TIENDITA DE BARRIO - CAJA ===" << endl;
+        cout << "1) Registrar una venta" << endl;
+        cout << "2) Ver resumen del dia" << endl;
+        cout << "3) Salir del programa" << endl;
+        cout << "Elija una opcion: ";
+        cin >> opc;
         
-        if (opcion < 1 || opcion > 3) {
-            cout << "Error: Opcion invalida. Intente de nuevo." << endl;
+        if (opc < 1 || opc > 3) {
+            cout << "Opcion no valida, intente otra vez..." << endl;
         }
         
-        if (opcion == 1) {
-            double subtotal;
-            subtotal = 0;
+        if (opc == 1) {
+            double sub = 0;
+            double pre = -1;
             
-            double precio;
-            precio = -1;
+            cout << "\n--- NUEVA COMPRA (coloque precio 0 para cerrar la cuenta) ---" << endl;
             
-            cout << "\n--- NUEVA VENTA (Ingrese precio 0 para terminar) ---" << endl;
-            
-            while (precio != 0) {
-                cout << "Ingrese precio unitario del producto: Q";
-                cin >> precio;
+            while (pre != 0) {
+                cout << "Precio del producto: Q";
+                cin >> pre;
                 
-                while (precio < 0) {
-                    cout << "Error: El precio no puede ser negativo." << endl;
-                    cout << "Ingrese precio unitario del producto: Q";
-                    cin >> precio;
+                while (pre < 0) {
+                    cout << "El precio no puede ser menor a cero. Ponga otra vez: Q";
+                    cin >> pre;
                 }
                 
-                if (precio != 0) {
-                    int cantidad;
-                    cout << "Ingrese la cantidad (1-100): ";
-                    cin >> cantidad;
+                if (pre != 0) {
+                    int cant;
+                    cout << "Cantidad de unidades: ";
+                    cin >> cant;
                     
-                    while (cantidad < 1 || cantidad > 100) {
-                        cout << "Error: La cantidad debe estar entre 1 y 100." << endl;
-                        cout << "Ingrese la cantidad (1-100): ";
-                        cin >> cantidad;
+                    while (cant < 1 || cant > 100) {
+                        cout << "Cantidad incorrecta (debe ser de 1 a 100). Ponga otra vez: ";
+                        cin >> cant;
                     }
                     
-                    subtotal = subtotal + (precio * cantidad);
+                    sub = sub + (pre * cant);
                 }
             }
             
-            double descuento;
-            descuento = 0;
-            
-            if (subtotal < 100) {
-                descuento = 0;
+            // Calculo de los descuentos manuales
+            double desc = 0;
+            if (sub < 100) {
+                desc = 0;
             }
-            if (subtotal >= 100 && subtotal < 500) {
-                descuento = subtotal * 0.05;
+            if (sub >= 100 && sub < 500) {
+                desc = sub * 0.05;
             }
-            if (subtotal >= 500) {
-                descuento = subtotal * 0.10;
-            }
-            
-            double montoConDescuento;
-            montoConDescuento = subtotal - descuento;
-            
-            double iva;
-            iva = montoConDescuento * 0.12;
-            
-            double totalAPagar;
-            totalAPagar = montoConDescuento + iva;
-            
-            double pagoCliente;
-            cout << "\nTotal a pagar (con IVA): Q" << totalAPagar << endl;
-            cout << "Ingrese el monto recibido del cliente: Q";
-            cin >> pagoCliente;
-            
-            while (pagoCliente < totalAPagar) {
-                cout << "Error: El monto recibido es menor al total a pagar." << endl;
-                cout << "Ingrese el monto recibido del cliente: Q";
-                cin >> pagoCliente;
+            if (sub >= 500) {
+                desc = sub * 0.10;
             }
             
-            double cambio;
-            cambio = pagoCliente - totalAPagar;
+            double subConDesc = sub - desc;
+            double impuestoIva = subConDesc * 0.12;
+            double totalNeto = subConDesc + impuestoIva;
             
-            cout << "\n--- RECIBO DE VENTA ---" << endl;
-            cout << "Subtotal: Q" << subtotal << endl;
-            cout << "Descuento otorgado: Q" << descuento << endl;
-            cout << "IVA (12%): Q" << iva << endl;
-            cout << "Total final: Q" << totalAPagar << endl;
-            cout << "Pago del cliente: Q" << pagoCliente << endl;
-            cout << "Cambio: Q" << cambio << endl;
+            double pago = 0;
+            cout << "\nTotal neto a pagar: Q" << totalNeto << endl;
+            cout << "Efectivo recibido: Q";
+            cin >> pago;
             
-            totalVentas = totalVentas + 1;
-            totalDineroDia = totalDineroDia + totalAPagar;
-            totalDescuentosDia = totalDescuentosDia + descuento;
-            
-            if (ventaMayor == -1 || totalAPagar > ventaMayor) {
-                ventaMayor = totalAPagar;
+            while (pago < totalNeto) {
+                cout << "Dinero insuficiente. Falta dinero. Ingrese de nuevo: Q";
+                cin >> pago;
             }
-            if (ventaMenor == -1 || totalAPagar < ventaMenor) {
-                ventaMenor = totalAPagar;
+            
+            double vuelto = pago - totalNeto;
+            
+            // Impresion de la factura sencilla
+            cout << "\n****** RECUERDO DE SU COMPRA ******" << endl;
+            cout << "Subtotal de los productos: Q" << sub << endl;
+            cout << "Descuento aplicado: Q" << desc << endl;
+            cout << "Impuesto IVA cobrado: Q" << impuestoIva << endl;
+            cout << "TOTAL FINAL: Q" << totalNeto << endl;
+            cout << "Usted pago con: Q" << pago << endl;
+            cout << "Su cambio es: Q" << vuelto << endl;
+            cout << "***********************************" << endl;
+            
+            // Guardar datos para el reporte
+            conteoVentas = conteoVentas + 1;
+            dineroTotal = dineroTotal + totalNeto;
+            descuentosTotal = descuentosTotal + desc;
+            
+            if (vMayor == -1 || totalNeto > vMayor) {
+                vMayor = totalNeto;
+            }
+            if (vMenor == -1 || totalNeto < vMenor) {
+                vMenor = totalNeto;
             }
         }
         
-        if (opcion == 2) {
-            cout << "\n--- RESUMEN PARCIAL DEL DIA ---" << endl;
-            if (totalVentas == 0) {
+        if (opc == 2) {
+            cout << "\n====== REPORTE DE CAJA ======" << endl;
+            if (conteoVentas == 0) {
                 cout << "Aun no se han registrado ventas el dia de hoy." << endl;
             } else {
-                double promedio;
-                promedio = totalDineroDia / totalVentas;
-                
-                cout << "Numero de ventas realizadas: " << totalVentas << endl;
-                cout << "Total de dinero vendido: Q" << totalDineroDia << endl;
-                cout << "Venta de mayor valor: Q" << ventaMayor << endl;
-                cout << "Venta de menor valor: Q" << ventaMenor << endl;
-                cout << "Promedio por venta: Q" << promedio << endl;
-                cout << "Total de descuentos otorgados: Q" << totalDescuentosDia << endl;
+                double prom = dineroTotal / conteoVentas;
+                cout << "Ventas cobradas: " << conteoVentas << endl;
+                cout << "Dinero total en caja: Q" << dineroTotal << endl;
+                cout << "Venta mas alta: Q" << vMayor << endl;
+                cout << "Venta mas baja: Q" << vMenor << endl;
+                cout << "Promedio por cliente: Q" << prom << endl;
+                cout << "Total de descuentos dados: Q" << descuentosTotal << endl;
             }
+            cout << "=============================" << endl;
         }
         
-        if (opcion == 3) {
-            cout << "Cerrando caja... ¡Feliz dia!" << endl;
+        if (opc == 3) {
+            cout << "Saliendo del sistema de caja... Adios." << endl;
         }
     }
     
