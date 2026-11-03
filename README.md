@@ -15,3 +15,10 @@ Este es el proyecto final para el curso de Algoritmos 2026. Consiste en un siste
 - **Qué se le preguntó:** Se le solicitó guía para estructurar los ciclos lógicos del menú y apoyo para definir los casos de prueba mínimos requeridos.
 - **Qué se aceptó:** Las sugerencias de diseño lógico utilizando bucles `while` sencillos y la estructura de los casos de prueba para el documento de texto.
 - **Qué se rechazó:** Estructuras de código avanzadas (como bloques `switch`, funciones modulares o el uso de librerías para limpiar pantalla), manteniendo el código con una lógica directa e inicial apropiada para el nivel del curso.
+## Capturas de Pantalla de la Ejecución
+![Pruebas del Sistema](captura1.png)
+![Mensajes de Error](captura2.png)
+
+## Video de Demostración
+Puedes ver la explicación del código y las pruebas en el siguiente enlace:
+[Ver Video del Proyecto Final] (https://youtu.be/yeXQ19vs8yw)
